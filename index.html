@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backoffice Work</title>
     
-    <!-- Modern, stable PyScript core framework components -->
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
 
@@ -26,6 +25,9 @@
             --info-text: #e0f2fe;
             --info-border: rgba(6, 182, 212, 0.3);
             --template-bg: rgba(15, 23, 42, 0.6);
+            --portal-notice-bg: rgba(234, 179, 8, 0.15);
+            --portal-notice-text: #fef08a;
+            --portal-notice-border: rgba(234, 179, 8, 0.4);
         }
 
         html, body {
@@ -45,7 +47,6 @@
             flex-direction: column;
         }
 
-        /* Full Screen Fluid Container */
         .fullscreen-container { 
             flex: 1;
             width: 100%;
@@ -75,7 +76,6 @@
             gap: 20px;
         }
 
-        /* Customized Premium Samsung Style Badge */
         .samsung-badge {
             background-color: #ffffff;
             color: #000000;
@@ -103,7 +103,6 @@
             margin: 4px 0 0 0;
         }
 
-        /* Control Center Panel (Dropdowns + Search) */
         .control-panel {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
@@ -128,9 +127,9 @@
             flex-direction: column;
             gap: 8px;
             min-width: 280px;
+            flex: 1;
         }
 
-        /* Hidden class for dynamic component toggle */
         .hidden {
             display: none !important;
         }
@@ -143,19 +142,19 @@
             color: var(--aura-glow);
         }
 
-        select {
+        select, .panel-input {
             padding: 14px 16px;
             border: 1px solid var(--card-border);
             border-radius: 10px;
             font-size: 16px;
             color: var(--text-main);
-            background-color: rgba(15, 23, 42, 0.8);
+            background-color: rgba(15, 23, 42, 0.6);
             outline: none;
-            cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        select:focus {
+        select:focus, .panel-input:focus {
+            background-color: rgba(15, 23, 42, 0.8);
             border-color: var(--primary-color);
             box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
         }
@@ -170,7 +169,7 @@
             gap: 16px;
         }
 
-        input { 
+        .search-row input { 
             flex: 1;
             padding: 16px 20px; 
             box-sizing: border-box; 
@@ -183,7 +182,7 @@
             background-color: rgba(15, 23, 42, 0.6);
         }
 
-        input:focus {
+        .search-row input:focus {
             background-color: rgba(15, 23, 42, 0.8);
             border-color: var(--primary-color);
             box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
@@ -209,11 +208,6 @@
             transform: translateY(-1px);
         }
 
-        button:active {
-            transform: scale(0.99);
-        }
-
-        /* Full space grid area for matching results */
         .results-workspace {
             flex: 1;
             display: grid;
@@ -237,7 +231,6 @@
             border: 1px solid var(--error-border); 
         }
 
-        /* Premium Radiant Result Cards */
         .result-card { 
             padding: 26px; 
             border: 1px solid var(--card-border);
@@ -254,25 +247,8 @@
             overflow: hidden;
         }
 
-        .result-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(235deg, transparent, rgba(6, 182, 212, 0.05));
-            pointer-events: none;
-        }
-
-        .result-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(6, 182, 212, 0.15);
-            border-color: rgba(6, 182, 212, 0.3);
-        }
-
         .result-card h3 { 
-            margin: 0 0 18px 0; 
+            margin: 0; 
             color: #ffffff; 
             font-size: 21px;
             font-weight: 600;
@@ -298,13 +274,6 @@
             color: var(--primary-hover);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s ease, text-shadow 0.2s ease;
-        }
-
-        .contact-value a:hover {
-            color: var(--aura-glow);
-            text-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
-            text-decoration: underline;
         }
 
         .contact-value .missing {
@@ -312,7 +281,20 @@
             font-style: italic;
         }
 
-        /* Embedded Email Template Section Styles */
+        .portal-notice-box {
+            margin-top: 14px;
+            padding: 16px;
+            background-color: var(--portal-notice-bg);
+            border: 1px solid var(--portal-notice-border);
+            color: var(--portal-notice-text);
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .template-box {
             margin-top: 20px;
             padding: 16px;
@@ -329,21 +311,12 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .template-field {
             margin-bottom: 8px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding-bottom: 6px;
-        }
-
-        .template-field:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-            margin-bottom: 0;
         }
 
         .field-label {
@@ -362,12 +335,18 @@
             padding: 10px;
             border-radius: 6px;
         }
+        
+        .live-status-indicator {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
 
 <div class="fullscreen-container">
-    <!-- Header Panel -->
     <div class="header-section">
         <div class="brand-title-group">
             <div class="samsung-badge">Samsung</div>
@@ -378,46 +357,258 @@
         </div>
     </div>
     
-    <!-- Control Panel -->
     <div class="control-panel">
         <div class="selectors-row">
-            <!-- Dropdown Selector Group 1 -->
             <div class="dropdown-group">
                 <label class="control-label" for="issue-select">Select Issue Context</label>
-                <select id="issue-select" py-change="toggle_issue_context">
+                <select id="issue-select" onchange="runUIContextSwitch(this.value)">
                     <option value="bopis">BOPIS (Buy Online, Pick Up In Store)</option>
                     <option value="courier">Courier Routing</option>
+                    <option value="warehouse">Warehouse Operations</option>
                 </select>
             </div>
 
-            <!-- Dropdown Selector Group 2 (Shows up for Couriers) -->
+            <div class="dropdown-group" id="product-dropdown-wrapper">
+                <label class="control-label" for="product-search-input">Search Product 1 (Type Model Name or Code)</label>
+                <input type="text" id="product-search-input" class="panel-input" value="" autocomplete="off" placeholder="Type model code or name (e.g., SM-S948B, Vision AI)..." py-input="handle_live_product_match">
+                <div id="live-match-status" class="live-status-indicator">⏳ Connecting to Google Sheets... Please wait.</div>
+            </div>
+
             <div class="dropdown-group hidden" id="courier-dropdown-wrapper">
                 <label class="control-label" for="courier-select">Select Logistics Provider</label>
-                <select id="courier-select">
+                <select id="courier-select" py-change="execute_search">
                     <option value="all">-- All Couriers --</option>
                     <option value="BRING Logistics">BRING</option>
+                    <option value="DHL Logistics">DHL</option>
                     <option value="Postnord Distribution">PostNord</option>
                     <option value="Posti Group">Posti</option>
                     <option value="Skanlog Supply Chain">Skanlog</option>
                 </select>
             </div>
+
+            <div class="dropdown-group hidden" id="warehouse-dropdown-wrapper">
+                <label class="control-label" for="warehouse-select">Select Target Warehouse</label>
+                <select id="warehouse-select" py-change="execute_warehouse_render">
+                    <option value="">-- Choose Warehouse --</option>
+                    <option value="WC61_SCHENKER">WC 61 - DB Schenker</option>
+                    <option value="WC41_KUEHNE">WC 41 - Kuehne Nagel</option>
+                    <option value="WC21_KUEHNE">WC 21 - Kuehne Nagel</option>
+                </select>
+            </div>
         </div>
 
-        <!-- Dynamic Action Row -->
-        <div class="search-row">
-            <input type="text" id="store-input" placeholder="Type store name to search (e.g. Vinterbro, Porvoo)...">
+        <div class="search-row" id="action-search-row">
+            <input type="text" id="store-input" placeholder="Type store name to search (e.g. Vinterbro, Porvoo)..." py-input="handle_store_live_type">
             <button id="search-btn" py-click="execute_search">Search Data Channel</button>
         </div>
     </div>
 
-    <!-- Wide Screen Results Target -->
     <div id="output" class="results-workspace"></div>
 </div>
 
+<template id="warehouse-card-blueprint">
+    <div class="result-card">
+        <h3 id="wh-title-placeholder"></h3>
+        <div class="contact-row">
+            <span class="contact-label">Primary Destination</span>
+            <span class="contact-value"><a id="wh-email-link" href=""></a></span>
+        </div>
+        <div class="contact-row">
+            <span class="contact-label">Always CC</span>
+            <span class="contact-value"><a id="wh-cc-link" href=""></a></span>
+        </div>
+        <div class="template-box">
+            <div class="template-header">📧 Warehouse Stop Order Template</div>
+            <div class="template-field">
+                <span class="field-label">To:</span> <span id="lbl-to"></span>
+            </div>
+            <div class="template-field">
+                <span class="field-label">CC:</span> <span id="lbl-cc"></span>
+            </div>
+            <div class="template-field">
+                <span class="field-label">Subject:</span> Stop order – Order Number
+            </div>
+            <div class="template-field">
+                <span class="field-label">Body Blueprint:</span>
+                <span class="field-body-text">Hi, 
+If possible, could you please stop this order? It is at the customer’s request.
+ 
+PO: SE250328-00000000
+DO: 71000000
+Shipment: S46000000</span>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="bopis-card-blueprint">
+    <div class="result-card">
+        <h3 class="bopis-title"></h3>
+        <div class="contact-row">
+            <span class="contact-label">Operations Manager</span>
+            <span class="contact-value bopis-ops-val"></span>
+        </div>
+        <div class="contact-row">
+            <span class="contact-label">Store Manager</span>
+            <span class="contact-value bopis-mgr-val"></span>
+        </div>
+        <div class="template-box">
+            <div class="template-header">📧 Notification Template</div>
+            <div class="template-field">
+                <span class="field-label">To:</span> <span class="bopis-to-lbl"></span>
+            </div>
+            <div class="template-field">
+                <span class="field-label">Subject:</span> <span class="bopis-subj-lbl"></span>
+            </div>
+            <div class="template-field">
+                <span class="field-label">Body Blueprint:</span>
+                <span class="field-body-text bopis-body-lbl"></span>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="courier-card-blueprint">
+    <div class="result-card">
+        <h3 class="courier-title"></h3>
+        <div id="courier-contacts-container">
+            <div class="contact-row">
+                <span class="contact-label">Logistics Operations</span>
+                <span class="contact-value courier-ops-val"></span>
+            </div>
+            <div class="contact-row">
+                <span class="contact-label">Key Account Manager</span>
+                <span class="contact-value courier-mgr-val"></span>
+            </div>
+        </div>
+        <div class="portal-notice-box courier-portal-notice hidden">
+            ⚠️ <span>Creat case on the portal</span>
+        </div>
+        <div class="template-box courier-template-wrapper hidden">
+            <div class="template-header">📧 Logistics Incident Template</div>
+            <div class="template-field">
+                <span class="field-label">To:</span> <span class="courier-to-lbl"></span>
+            </div>
+            <div class="template-field">
+                <span class="field-label">CC:</span> <span class="courier-cc-lbl"></span>
+            </div>
+            <div class="template-field">
+                <span class="field-label">Subject:</span> <span class="courier-subj-lbl">Delivery Routing Query</span>
+            </div>
+            <div class="template-field">
+                <span class="field-label">Body Blueprint:</span>
+                <span class="field-body-text courier-body-lbl"></span>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+function runUIContextSwitch(val) {
+    var pWrap = document.getElementById("product-dropdown-wrapper");
+    var cWrap = document.getElementById("courier-dropdown-wrapper");
+    var wWrap = document.getElementById("warehouse-dropdown-wrapper");
+    var sRow = document.getElementById("action-search-row");
+    var outputDiv = document.getElementById("output");
+    
+    outputDiv.innerHTML = "";
+    pWrap.classList.add("hidden");
+    cWrap.classList.add("hidden");
+    wWrap.classList.add("hidden");
+    sRow.classList.add("hidden");
+    
+    if (val === "courier") {
+        cWrap.classList.remove("hidden");
+    } else if (val === "warehouse") {
+        wWrap.classList.remove("hidden");
+        document.getElementById("warehouse-select").value = "";
+    } else {
+        pWrap.classList.remove("hidden");
+        sRow.classList.remove("hidden");
+    }
+
+    if (window.pyscript && typeof window.pyscript.interpreter !== 'undefined') {
+        document.getElementById("search-btn").click();
+    }
+}
+</script>
+
 <script type="py">
+import csv
+from pyodide.http import open_url
 from pyscript import document
 
-# BOPIS Store Database Configuration
+SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT17r80G_O44gM58u9G_rYw1N-NA-C2zZ_r" 
+
+LIVE_PRODUCT_LIST = []
+CURRENT_PRODUCT_NAME = ""
+CURRENT_PRODUCT_CODE = ""
+
+HARDCODED_PRODUCTS = [
+    {"name": "32\" ViewFinity S7 S70D UHD Monitor", "model": "LS32D701EAUXEN"},
+    {"name": "B-series Soundbar HW-B46CF 2.1ch with subwoofer (2025)", "model": "HW-B46CF/XE"},
+    {"name": "Galaxy S25", "model": "SM-S931BZSGEUB"},
+    {"name": "Galaxy S25 Ultra", "model": "SM-S938BZEGEUB"},
+    {"name": "Galaxy S26 Ultra", "model": "SM-S948BZVGEUB"},
+    {"name": "Galaxy S26", "model": "SM-S942BZVHEUB"},
+    {"name": "Galaxy S26+", "model": "SM-S947BZVGEUB"},
+    {"name": "65\" Neo QLED QN82H 4K Samsung Vision AI Smart TV (2026)", "model": "TQ65QN82HBUXNA"},
+    {"name": "55\" Neo QLED QN82H 4K Samsung Vision AI Smart TV (2026)", "model": "TQ55QN82HBUXNA"},
+    {"name": "75\" Neo QLED QN82H 4K Samsung Vision AI Smart TV (2026)", "model": "TQ75QN82HBUXNA"}
+]
+
+def on_start():
+    global LIVE_PRODUCT_LIST
+    status_label = document.getElementById("live-match-status")
+    search_input = document.getElementById("product-search-input")
+    search_input.value = ""
+    try:
+        response_stream = open_url(SHEET_CSV_URL)
+        csv_reader = csv.reader(response_stream.read().splitlines())
+        next(csv_reader, None)
+        
+        LIVE_PRODUCT_LIST = list(HARDCODED_PRODUCTS)
+        for row in csv_reader:
+            if len(row) >= 2:
+                LIVE_PRODUCT_LIST.append({"name": row[0].strip(), "model": row[1].strip()})
+        status_label.innerHTML = "🟢 Connected to Sheet! Local definitions and updates are active."
+    except Exception as e:
+        LIVE_PRODUCT_LIST = list(HARDCODED_PRODUCTS)
+        status_label.innerHTML = "ℹ️ Running on local internal index database."
+
+on_start()
+
+def handle_live_product_match(event):
+    global CURRENT_PRODUCT_NAME, CURRENT_PRODUCT_CODE
+    user_typed = document.getElementById("product-search-input").value.strip().lower()
+    status_label = document.getElementById("live-match-status")
+    
+    if not user_typed:
+        CURRENT_PRODUCT_NAME = ""
+        CURRENT_PRODUCT_CODE = ""
+        status_label.innerHTML = "Template output: Product 1 will show empty until you search"
+    else:
+        matched_item = None
+        for item in LIVE_PRODUCT_LIST:
+            if user_typed in item["name"].lower() or user_typed in item["model"].lower():
+                matched_item = item
+                break
+        if matched_item:
+            CURRENT_PRODUCT_NAME = matched_item["name"]
+            CURRENT_PRODUCT_CODE = matched_item["model"]
+            status_label.innerHTML = f"🎯 Matched: <strong>{CURRENT_PRODUCT_CODE}</strong> ({CURRENT_PRODUCT_NAME})"
+        else:
+            CURRENT_PRODUCT_NAME = ""
+            CURRENT_PRODUCT_CODE = ""
+            status_label.innerHTML = "🔍 Searching index profiles..."
+
+    store_query = document.getElementById("store-input").value.strip()
+    if store_query:
+        render_bopis_results()
+
+def handle_store_live_type(event):
+    render_bopis_results()
+
 BOPIS_DATABASE = {
     "Elkjøp Arendal": {"ops": "dm.operations.arendal@elkjop.no", "mgr": "storemanager.arendal@elkjop.no"},
     "Elkjøp Gullgruven Åsane": {"ops": "dm.operations.gullgruven@elkjop.no", "mgr": "storemanager.gullgruven@elkjop.no"},
@@ -520,17 +711,17 @@ BOPIS_DATABASE = {
     "Elkjøp Ulsteinvik Saunesmarka": {"ops": "dm.operations.ulsteinvik@elkjop.no", "mgr": "storemanager.ulsteinvik@elkjop.no"},
     "Elkjøp Volda": {"ops": "dm.operations.volda@elkjop.no", "mgr": "storemanager.volda@elkjop.no"},
     "Elkjøp Ålesund Breivika": {"ops": "dm.operations.breivika@elkjop.no", "mgr": "storemanager.breivika@elkjop.no"},
-    "Elkjøp Sandvika": {"ops": "dm.operations.sandvika@elkjop.no", "mgr": "storemanager.sandvika@elkjop.no"},
+    "Elkjøp Sandvika": {"ops": "sandvika.operations@elkjop.no", "mgr": "storemanager.sandvika@elkjop.no"},
     "Elkjøp Strømmen": {"ops": "dm.operations.strommen@elkjop.no", "mgr": "storemanager.strommen@elkjop.no"},
     "Elkjøp Alna": {"ops": "dm.operations.alna@elkjop.no", "mgr": "storemanager.alna@elkjop.no"},
-    "Elkjøp Nordre Gate": {"ops": "dm.operations.nordregate@elkjop.no", "mgr": "storemanager.nordregate@elkjop.no"},
+    "Elkjøp Nordre Gate": {"ops": "dm.operations.nordregate@elkjop.no", "mgr": "nordregate.operations@elkjop.no"},
     "Elkjøp Sandnes": {"ops": "dm.operations.sandnes@elkjop.no", "mgr": "storemanager.sandnes@elkjop.no"},
     "Elkjøp Lagunen": {"ops": "dm.operations.lagunen@elkjop.no", "mgr": "storemanager.lagunen@elkjop.no"},
     "Elkjøp Østfoldhallene": {"ops": "dm.operations.dikeveien@elkjop.no", "mgr": "storemanager.dikeveien@elkjop.no"},
     "Elkjøp Åsane Storsenter": {"ops": "dm.operations.asane@elkjop.no", "mgr": "storemanager.asane@elkjop.no"},
     "Elkjøp Gulskogen": {"ops": "dm.operations.gulskogen@elkjop.no", "mgr": "storemanager.gulskogen@elkjop.no"},
     "Elkjøp Vikingskipet": {"ops": "dm.operations.vikingskipet@elkjop.no", "mgr": "storemanager.vikingskipet@elkjop.no"},
-    "Elkjøp Sørlandssenteret": {"ops": "dm.operations.sorlandssenteret@elkjop.no", "mgr": "storemanager.sorlandssenteret@elkjop.no"},
+    "Elkjøp Sørlandssenteret": {"ops": "dm.operations.sorlandssenteret@elkjop.no", "mgr": "sorlandssenteret.operations@elkjop.no"},
     "Elkjøp Haugesund Bergsenteret": {"ops": "dm.operations.bergsenteret@elkjop.no", "mgr": "storemanager.bergsenteret@elkjop.no"},
     "Elkjøp Molde Storsenter": {"ops": "dm.operations.moldestorsenter@elkjop.no", "mgr": "storemanager.moldestorsenter@elkjop.no"},
     "Elkjøp Kjørbekk": {"ops": "dm.operations.kjorbekk@elkjop.no", "mgr": "storemanager.kjorbekk@elkjop.no"},
@@ -543,116 +734,180 @@ BOPIS_DATABASE = {
     "Gigantti Salon Kodintekniikka Oy": {"ops": "dm.operations.salo@gigantti.fi", "mgr": "storemanager.salo@gigantti.fi"}
 }
 
-# Courier Logistic Directory Configuration
 COURIER_DATABASE = {
-    "BRING Logistics": {"ops": "bring.nordic.ops@bring.com", "mgr": "bring.accountmanagement@bring.com"},
-    "Postnord Distribution": {"ops": "postnord.fulfillment.support@postnord.com", "mgr": "postnord.transport.mgr@postnord.com"},
-    "Posti Group": {"ops": "posti.fi.operations@posti.com", "mgr": "posti.business.solutions@posti.com"},
-    "Skanlog Supply Chain": {"ops": "skanlog.controltower@skanlog.com", "mgr": "skanlog.accountdirector@skanlog.com"}
+    "BRING Logistics": {"ops": "", "mgr": ""},
+    "DHL Logistics": {"ops": "wedc.ecom@samsung.com", "mgr": "dhl.nordic.support@dhl.com"},
+    "Postnord Distribution": {"ops": "", "mgr": ""},
+    "Posti Group": {"ops": "avainasiakas@posti.com", "mgr": "posti.business.solutions@posti.com"},
+    "Skanlog Supply Chain": {"ops": "Distribution@skanlog-direct.com", "mgr": "skanlog.accountdirector@skanlog.com"}
 }
 
-def toggle_issue_context(event):
-    """Manages visibility of controls based on selected operations mode and resets workspace."""
-    selected_issue = document.getElementById("issue-select").value
-    courier_wrapper = document.getElementById("courier-dropdown-wrapper")
-    text_input = document.getElementById("store-input")
+WAREHOUSE_DATABASE = {
+    "WC61_SCHENKER": {
+        "title": "WC 61 - DB Schenker",
+        "email": "se.sha.sto.samshvl@dsv.com",
+        "cc": "CT.ecommerce@samsung.com"
+    },
+    "WC41_KUEHNE": {
+        "title": "WC 41 - Kuehne Nagel",
+        "email": "knnrk.outbound@kuehne-nagel.com",
+        "cc": "CT.ecommerce@samsung.com"
+    },
+    "WC21_KUEHNE": {
+        "title": "WC 21 - Kuehne Nagel",
+        "email": "cs.jkg@kuehne-nagel.com",
+        "cc": "CT.ecommerce@samsung.com"
+    }
+}
+
+def execute_warehouse_render(event):
     output_div = document.getElementById("output")
+    selected_wh_key = document.getElementById("warehouse-select").value
+    if not selected_wh_key:
+        output_div.innerHTML = ""
+        return
+    wh_data = WAREHOUSE_DATABASE[selected_wh_key]
     
-    # Force reset the layout output workspace immediately when changing context tabs
+    tmpl = document.getElementById("warehouse-card-blueprint").content.cloneNode(True)
+    tmpl.getElementById("wh-title-placeholder").innerHTML = f"🏭 {wh_data['title']}"
+    
+    eLink = tmpl.getElementById("wh-email-link")
+    eLink.href = f"mailto:{wh_data['email']}"
+    eLink.innerHTML = wh_data['email']
+    
+    cLink = tmpl.getElementById("wh-cc-link")
+    cLink.href = f"mailto:{wh_data['cc']}"
+    cLink.innerHTML = wh_data['cc']
+    
+    tmpl.getElementById("lbl-to").innerHTML = wh_data['email']
+    tmpl.getElementById("lbl-cc").innerHTML = wh_data['cc']
+    
     output_div.innerHTML = ""
+    output_div.appendChild(tmpl)
+
+def render_bopis_results():
+    output_div = document.getElementById("output")
+    search_query = document.getElementById("store-input").value.strip().lower()
+    if not search_query:
+        output_div.innerHTML = ""
+        return
     
-    if selected_issue == "courier":
-        courier_wrapper.classList.remove("hidden")
-        text_input.classList.add("hidden")  # Hide input, text searches completely blocked
+    product_1_line = f"Product 1: {CURRENT_PRODUCT_CODE} / {CURRENT_PRODUCT_NAME}" if CURRENT_PRODUCT_NAME else "Product 1: "
+    container = document.createDocumentFragment()
+    match_found = False
+    
+    for store_name, data in BOPIS_DATABASE.items():
+        if search_query in store_name.lower():
+            match_found = True
+            ops_email = data["ops"]
+            mgr_email = data["mgr"]
+            
+            tmpl = document.getElementById("bopis-card-blueprint").content.cloneNode(True)
+            tmpl.querySelector(".bopis-title").innerHTML = f"🏬 {store_name}"
+            
+            ops_val = tmpl.querySelector(".bopis-ops-val")
+            if ops_email:
+                ops_val.innerHTML = f'<a href="mailto:{ops_email}">{ops_email}</a>'
+            else:
+                ops_val.innerHTML = '<span class="missing">Not Listed</span>'
+                
+            mgr_val = tmpl.querySelector(".bopis-mgr-val")
+            if mgr_email:
+                mgr_val.innerHTML = f'<a href="mailto:{mgr_email}">{mgr_email}</a>'
+            else:
+                mgr_val.innerHTML = '<span class="missing">Not Listed</span>'
+                
+            tmpl.querySelector(".bopis-to-lbl").innerHTML = f"{ops_email or ''}; {mgr_email or ''}"
+            tmpl.querySelector(".bopis-subj-lbl").innerHTML = f"BOPIS Issue - {store_name}"
+            
+            body_text = f"Hi,\nDescribe the issue\n{product_1_line}\nElkjöp SO number: 20xxxxx\nSamsung PO number: SE250608-xxxxxx\nBP: 25xxxxx\nStore: {store_name}"
+            tmpl.querySelector(".bopis-body-lbl").innerHTML = body_text
+            
+            container.appendChild(tmpl)
+            
+    output_div.innerHTML = ""
+    if not match_found:
+        output_div.innerHTML = f'<div class="message-banner error">🔍 No BOPIS configurations active matching "{search_query}".</div>'
     else:
-        courier_wrapper.classList.add("hidden")
-        text_input.classList.remove("hidden") # Show text input for store data search
+        output_div.appendChild(container)
 
 def execute_search(event):
-    output_div = document.getElementById("output")
     selected_issue = document.getElementById("issue-select").value
-    selected_courier = document.getElementById("courier-select").value
-    search_query = document.getElementById("store-input").value.strip().lower()
-    
-    html_results = ""
-
-    # --- MODE 1: COURIER ROUTING ENGINE (Purely Dropdown Driven - No Template Box) ---
+    output_div = document.getElementById("output")
     if selected_issue == "courier":
+        selected_courier = document.getElementById("courier-select").value
+        container = document.createDocumentFragment()
+        
         for courier_name, data in COURIER_DATABASE.items():
             if (selected_courier == "all") or (selected_courier == courier_name):
-                op_mail = f'<a href="mailto:{data["ops"]}">{data["ops"]}</a>' if data["ops"] else '<span class="missing">Not Listed</span>'
-                sm_mail = f'<a href="mailto:{data["mgr"]}">{data["mgr"]}</a>' if data["mgr"] else '<span class="missing">Not Listed</span>'
+                tmpl = document.getElementById("courier-card-blueprint").content.cloneNode(True)
+                tmpl.querySelector(".courier-title").innerHTML = f"🚚 {courier_name}"
                 
-                html_results += f"""
-                <div class="result-card">
-                    <h3>🚚 {courier_name}</h3>
-                    <div class="contact-row">
-                        <span class="contact-label">Logistics Operations</span>
-                        <span class="contact-value">{op_mail}</span>
-                    </div>
-                    <div class="contact-row">
-                        <span class="contact-label">Key Account Manager</span>
-                        <span class="contact-value">{sm_mail}</span>
-                    </div>
-                </div>
-                """
-        output_div.innerHTML = html_results
-
-    # --- MODE 2: BOPIS STORE ROUTING ENGINE (With Integrated Custom Template Output) ---
-    else:
-        if not search_query:
-            output_div.innerHTML = '<div class="message-banner error">⚠️ Please type a store name before executing a BOPIS search.</div>'
-            return
-
-        for store_name, data in BOPIS_DATABASE.items():
-            if search_query in store_name.lower():
-                ops_email = data["ops"]
-                mgr_email = data["mgr"]
+                # If Bring or Postnord, remove the address block fields to only feature the portal query message
+                if courier_name in ["BRING Logistics", "Postnord Distribution"]:
+                    contacts_div = tmpl.getElementById("courier-contacts-container")
+                    if contacts_div:
+                        contacts_div.remove()
+                    notice_el = tmpl.querySelector(".courier-portal-notice")
+                    notice_el.classList.remove("hidden")
+                else:
+                    ops_val = tmpl.querySelector(".courier-ops-val")
+                    if data["ops"]:
+                        ops_val.innerHTML = f'<a href="mailto:{data["ops"]}">{data["ops"]}</a>'
+                    else:
+                        ops_val.innerHTML = '<span class="missing">Not Listed</span>'
+                        
+                    mgr_val = tmpl.querySelector(".courier-mgr-val")
+                    if data["mgr"]:
+                        mgr_val.innerHTML = f'<a href="mailto:{data["mgr"]}">{data["mgr"]}</a>'
+                    else:
+                        mgr_val.innerHTML = '<span class="missing">Not Listed</span>'
                 
-                op_mail_link = f'<a href="mailto:{ops_email}">{ops_email}</a>' if ops_email else '<span class="missing">Not Listed</span>'
-                sm_mail_link = f'<a href="mailto:{mgr_email}">{mgr_email}</a>' if mgr_email else '<span class="missing">Not Listed</span>'
-                
-                # Dynamic construction of custom requested email layout template block
-                html_results += f"""
-                <div class="result-card">
-                    <h3>🏬 {store_name}</h3>
-                    <div class="contact-row">
-                        <span class="contact-label">Operations Manager</span>
-                        <span class="contact-value">{op_mail_link}</span>
-                    </div>
-                    <div class="contact-row">
-                        <span class="contact-label">Store Manager</span>
-                        <span class="contact-value">{sm_mail_link}</span>
-                    </div>
+                # Check for Skanlog to attach updated address, CC alignment, and metrics profile
+                if courier_name == "Skanlog Supply Chain":
+                    wrapper = tmpl.querySelector(".courier-template-wrapper")
+                    wrapper.classList.remove("hidden")
+                    tmpl.querySelector(".courier-to-lbl").innerHTML = f"{data['ops'] or ''}"
+                    tmpl.querySelector(".courier-cc-lbl").innerHTML = "ct.ecommerce@samsung.com"
+                    tmpl.querySelector(".courier-subj-lbl").innerHTML = "Skanlog Delivery Incident Routing"
                     
-                    <!-- Appended Copyable Email Notification Template Block -->
-                    <div class="template-box">
-                        <div class="template-header">📧 Notification Template</div>
-                        <div class="template-field">
-                            <span class="field-label">To:</span> {ops_email}; {mgr_email}
-                        </div>
-                        <div class="template-field">
-                            <span class="field-label">Subject:</span> 
-                        </div>
-                        <div class="template-field">
-                            <span class="field-label">Body Blueprint:</span>
-                            <span class="field-body-text">Hi,
-Describe the issue
-Product 1: SM-S931BZSGEUB / Galaxy S25
-Product 2: EF-VS931PJEGWW / Galaxy S25 Kindsuit Case
-Elkjöp SO number: 20xxxxx
-Samsung PO number: SE250608-xxxxxx
-BP: 25xxxxx
-Store: {store_name}</span>
-                        </div>
-                    </div>
-                </div>
-                """
+                    skanlog_body = "Hello,\n\nDescribe the issue\n\nShipment: S461097570\nPO: \nLSP kolli: SAMS461097570\nDO: \nCity: \nPostal code: "
+                    tmpl.querySelector(".courier-body-lbl").innerHTML = skanlog_body
                 
-        if not html_results:
-            output_div.innerHTML = f'<div class="message-banner error">🔍 No BOPIS configurations active matching "{search_query}".</div>'
-        else:
-            output_div.innerHTML = html_results
+                # Check for Posti to implement requested incident template and alignment constraints
+                elif courier_name == "Posti Group":
+                    wrapper = tmpl.querySelector(".courier-template-wrapper")
+                    wrapper.classList.remove("hidden")
+                    tmpl.querySelector(".courier-to-lbl").innerHTML = f"{data['ops'] or ''}"
+                    tmpl.querySelector(".courier-cc-lbl").innerHTML = "ct.ecommerce@samsung.com"
+                    tmpl.querySelector(".courier-subj-lbl").innerHTML = "Posti Delivery Incident Routing"
+                    
+                    posti_body = "Dear Posti,\n\nDescription:\nShipment:\nPO:\nLSP kolli:\n\nThank you!\n*Company signature.*"
+                    tmpl.querySelector(".courier-body-lbl").innerHTML = posti_body
+
+                # Check for DHL to attach requested target parameters, layout and explicit CC exclusion
+                elif courier_name == "DHL Logistics":
+                    wrapper = tmpl.querySelector(".courier-template-wrapper")
+                    wrapper.classList.remove("hidden")
+                    tmpl.querySelector(".courier-to-lbl").innerHTML = f"{data['ops'] or ''}"
+                    tmpl.querySelector(".courier-cc-lbl").innerHTML = '<span class="missing">Excluded</span>'
+                    tmpl.querySelector(".courier-subj-lbl").innerHTML = "DHL Delivery Incident Routing"
+                    
+                    dhl_body = "Descriptions:\nWaybill:\nDO:\n\nThank you!"
+                    tmpl.querySelector(".courier-body-lbl").innerHTML = dhl_body
+                    
+                container.appendChild(tmpl)
+                
+        output_div.innerHTML = ""
+        output_div.appendChild(container)
+    elif selected_issue == "warehouse":
+        execute_warehouse_render(None)
+    else:
+        search_query = document.getElementById("store-input").value.strip()
+        if not search_query:
+            output_div.innerHTML = ""
+            return
+        render_bopis_results()
 </script>
 
 </body>
